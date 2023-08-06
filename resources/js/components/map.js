@@ -52,8 +52,8 @@ document.addEventListener("alpine:init", () => {
                     ],
                     view: new View({
                         projection: "EPSG:4326",
-                        center: [-78.2161, -0.7022],
-                        zoom: 8,
+                        center: [47.8836532,-18.9282945],
+                        zoom: 17,
                     }),
                     overlays: [
                         new Overlay({

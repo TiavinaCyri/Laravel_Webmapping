@@ -21,8 +21,8 @@
 </head>
 <body class="font-sans antialiased">
     <div>
-        <div class="text-center py-5">
-            <h1 class="text-5xl">Map amenagement territoriale Ambatoloana</h1>
+        <div class="p-3">
+            <h1 class="text-5xl text-blue-700 first-letter:text-7xl font-extrabold">Amenagement territoriale Ambatoloana</h1>
         </div>
         <main>
             {{ $slot }}
