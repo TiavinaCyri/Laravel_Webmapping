@@ -14,20 +14,52 @@ document.addEventListener("alpine:init", () => {
             legendOpened: false,
             map: {},
             initComponent() {
-                const paramsObj = {
+                let paramsObj = {
                     servive: "WFS",
                     version: "2.0.0",
                     request: "GetFeature",
-                    typeName: "laravelgis:monuments",
                     outputFormat: "application/json",
                     crs: "EPSG:4326",
                     srsName: "EPSG:4326",
                 };
 
-                const urlParams = new URLSearchParams(paramsObj);
-                const monumentsUrl =
-                    "http://localhost:8081/geoserver/wfs?" +
-                    urlParams.toString();
+                const baseUrl = "http://localhost:8081/geoserver/wfs?";
+
+                paramsObj.typeName = "laravelgis:monuments";
+                let urlParams = new URLSearchParams(paramsObj);
+
+                let monumentsLayer = new VectorLayer({
+                    source: new VectorSource({
+                        format: new GeoJSON(),
+                        url: baseUrl + urlParams.toString(),
+                    }),
+                    style: this.monumentsStyleFunction,
+                    label: 'Monuments',
+                });
+
+                paramsObj.typeName = "laravelgis:world-administrative-boundaries";
+                urlParams = new URLSearchParams(paramsObj);
+
+                let worldAdministrativeBoundariesLayer = new VectorLayer({
+                    source: new VectorSource({
+                        format: new GeoJSON(),
+                        url: baseUrl + urlParams.toString(),
+                    }),
+                    style: this.worldAdministrativeBoundariesStyleFunction,
+                    label: 'World Administrative Boundaries',
+                });
+
+                paramsObj.typeName = "laravelgis:bati";
+                urlParams = new URLSearchParams(paramsObj);
+
+                let worldRiversLayer = new VectorLayer({
+                    source: new VectorSource({
+                        format: new GeoJSON(),
+                        url: baseUrl + urlParams.toString(),
+                    }),
+                    style: this.worldRiversStyleFunction,
+                    label: 'World Rivers',
+                });
 
                 this.map = new Map({
                     target: this.$refs.map,
@@ -36,14 +68,9 @@ document.addEventListener("alpine:init", () => {
                             source: new OSM(),
                             label: 'OpenStreetMap',
                         }),
-                        new VectorLayer({
-                            source: new VectorSource({
-                                format: new GeoJSON(),
-                                url: monumentsUrl,
-                            }),
-                            style: this.styleFunction,
-                            label: 'Monuments',
-                        }),
+                        worldAdministrativeBoundariesLayer,
+                        worldRiversLayer,
+                        monumentsLayer
                     ],
                     view: new View({
                         projection: "EPSG:4326",
@@ -106,7 +133,7 @@ document.addEventListener("alpine:init", () => {
                 overlay.setPosition(undefined)
                 this.$refs.popupContent.innerHTML = ''
             },
-            styleFunction(feature, resolution) {
+            monumentsStyleFunction(feature, resolution) {
                 return new Style({
                     image: new Circle({
                         radius: 4,
@@ -132,6 +159,48 @@ document.addEventListener("alpine:init", () => {
                         }),
                         padding: [5, 2, 2, 5],
                     }),
+                });
+            },
+            worldAdministrativeBoundariesStyleFunction(feature, resolution) {
+                return new Style({
+                    fill: new Fill({
+                        color: "rgba(125, 125, 125, 0.1)",
+                    }),
+                    stroke: new Stroke({
+                        color: "rgba(125, 125, 125, 1)",
+                        width: 2,
+                    }),
+                    text: new Text({
+                        font: "16px serif bold",
+                        text: feature.get("name"),
+                        fill: new Fill({
+                            color: "rgba(32, 32, 32, 1)",
+                        }),
+                    }),
+                });
+            },
+            worldRiversStyleFunction(feature, resolution) {
+                let text;
+                let width = 2;
+
+                if(resolution < 0.002){
+                    text = new Text({
+                        font: "20px serif",
+                        text: feature.get("river_map"),
+                        fill: new Fill({
+                            color: "rgba(0, 0, 255, 1)",
+                        }),
+                    });
+
+                    width = 4;
+                }
+
+                return new Style({
+                    stroke: new Stroke({
+                        color: "rgba(0, 0, 255, 1)",
+                        width: width,
+                    }),
+                    text: text,
                 });
             },
             gotoFeature(feature) {
