@@ -40,6 +40,18 @@ document.addEventListener("alpine:init", () => {
                     label: 'Batiments',
                 });
 
+                let foretLayer = new TileLayer({
+                    source: new TileWMS({
+                        url: 'http://localhost:8081/geoserver/wms',
+                        params: {
+                            'LAYERS': 'laravelgis:foret',
+                            'TILED': true
+                        },
+                        serverType: 'geoserver',
+                    }),
+                    label: 'Foret',
+                });
+
                 this.map = new Map({
                     target: this.$refs.map,
                     layers: [
@@ -48,7 +60,8 @@ document.addEventListener("alpine:init", () => {
                             label: 'OpenStreetMap',
                         }),
                         batiLayer,
-                        monumentsLayer
+                        monumentsLayer,
+                        foretLayer,
                     ],
                     view: new View({
                         projection: "EPSG:4326",

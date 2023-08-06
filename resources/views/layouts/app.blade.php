@@ -27,6 +27,16 @@
         <main>
             {{ $slot }}
         </main>
+        <div class="flex justify-end px-3">
+            <div class="text-sm flex gap-5">
+                <span class="font-semibold">Laravel 10</span>
+                <span class="font-semibold">PostgreSql</span>
+                <span class="font-semibold">PostGis</span>
+                <span class="font-semibold">OpenLayers</span>
+                <span class="font-semibold">OpenStreetMap</span>
+                <span class="font-semibold">Geoserver</span>
+            </div>
+        </div>
     </div>
 
     @stack('modals')
