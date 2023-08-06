@@ -1,0 +1,40 @@
+version: '3'
+services:
+  postgre_postgis:
+    container_name: postgre_container
+    image: postgis/postgis:12-3.2-alpine
+    restart : always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/var/lib/postgresql/data
+    volumes:
+      - db:/var/lib/postgresql/data
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json  # Add this line
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgre_postgis  # Add this line to ensure proper startup order
+  geoserver:
+    image: kartoza/geoserver:latest
+    ports:
+        - "8081:8080"
+    volumes:
+        - geoserver-data:/opt/geoserver/data_dir
+    environment:
+        GEOSERVER_DATA_DIR: /opt/geoserver/data_dir
+        GEOSERVER_ADMIN_USER: admin
+        GEOSERVER_ADMIN_PASSWORD: geoserver
+volumes:
+  geoserver-data:
+  db:
+    driver: local
