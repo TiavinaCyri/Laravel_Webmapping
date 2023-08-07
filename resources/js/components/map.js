@@ -53,28 +53,15 @@ document.addEventListener("alpine:init", () => {
           label: "Batiments",
         });
 
-        // let batiLayer = new TileLayer({
-        //   source: new TileWMS({
-        //     url: "http://localhost:8081/geoserver/wms",
-        //     params: {
-        //       LAYERS: "laravelgis:bati",
-        //       TILED: true,
-        //     },
-        //     serverType: "geoserver",
-        //   }),
-        //   style: this.batiStyle,
-        //   label: "Batiments",
-        // });
+        paramsObj.typeName = "laravelgis:foret";
+        urlParams = new URLSearchParams(paramsObj);
 
-        let foretLayer = new TileLayer({
-          source: new TileWMS({
-            url: "http://localhost:8081/geoserver/wms",
-            params: {
-              LAYERS: "laravelgis:foret",
-              TILED: true,
-            },
-            serverType: "geoserver",
+        let foretLayer = new VectorLayer({
+          source: new VectorSource({
+            format: new GeoJSON(),
+            url: baseUrl + urlParams.toString(),
           }),
+          style: this.foretStyle,
           label: "Foret",
         });
 
@@ -166,6 +153,24 @@ document.addEventListener("alpine:init", () => {
           }),
           stroke: new Stroke({
             color: "rgba(125, 125, 125, 1)",
+            width: 2,
+          }),
+          text: new Text({
+            font: "16px serif bold",
+            text: feature.get("name"),
+            fill: new Fill({
+              color: "rgba(32, 32, 32, 1)",
+            }),
+          }),
+        });
+      },
+      foretStyle(feature, resolution) {
+        return new Style({
+          fill: new Fill({
+            color: "#22c55e",
+          }),
+          stroke: new Stroke({
+            color: "#1a2e05",
             width: 2,
           }),
           text: new Text({

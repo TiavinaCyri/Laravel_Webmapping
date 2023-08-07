@@ -15,7 +15,7 @@
     "src": "resources/js/app.js"
   },
   "resources/js/components/map.js": {
-    "file": "assets/map-13dc5c5e.js",
+    "file": "assets/map-8ab7ddee.js",
     "isEntry": true,
     "src": "resources/js/components/map.js"
   }
