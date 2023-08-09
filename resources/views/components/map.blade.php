@@ -6,7 +6,8 @@
                 <div class="flex items-center justify-between pr-1">
                     <div class="flex justify-start space-x-3">
                         <h3 x-on:click.prevend="activeTab = 'legend'" class="cursor-pointer text-slate-700" x-bind:class="activeTab === 'legend' && 'font-bold'">Legend</h3>
-                        <h3 x-on:click.prevend="activeTab = 'monuments'" class="cursor-pointer text-slate-700" x-bind:class="activeTab === 'monuments' && 'font-bold'">Monuments</h3>
+                        <h3 x-on:click.prevend="activeTab = 'batiments'" class="cursor-pointer text-slate-700" x-bind:class="activeTab === 'batiments' && 'font-bold'">Batiments</h3>
+                        <h3 x-on:click.prevend="activeTab = 'routes'" class="cursor-pointer text-slate-700" x-bind:class="activeTab === 'routes' && 'font-bold'">Routes</h3>
                     </div>
                     <button x-on:click.prevent="legendOpened = false" class="mb-1 text-2xl font-black text-slate-400 transition hover:text-[#3369A1] focus:text-[#3369A1] focus:outline-none">&times;</button>
                 </div>
@@ -29,8 +30,11 @@
                         </li>
                     </template>
                 </ul>
-                <div x-show="activeTab === 'monuments'" x-transition:enter="transition-opacity duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="mt-2 p-1 rounded-md border border-slate-300 bg-white">
-                    Monuments
+                <div x-show="activeTab === 'batiments'" x-transition:enter="transition-opacity duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="mt-2 p-1 rounded-md border border-slate-300 bg-white">
+                    Batiments
+                </div>
+                <div x-show="activeTab === 'routes'" x-transition:enter="transition-opacity duration-150" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="mt-2 p-1 rounded-md border border-slate-300 bg-white">
+                    Routes
                 </div>
             </div>
         </div>
