@@ -18,18 +18,6 @@ document.addEventListener("alpine:init", () => {
       map: {},
       activeTab: "legend",
       initComponent() {
-        let monumentsLayer = new TileLayer({
-          source: new TileWMS({
-            url: "http://localhost:8081/geoserver/wms",
-            params: {
-              LAYERS: "laravelgis:monuments",
-              TILED: true,
-            },
-            serverType: "geoserver",
-          }),
-          label: "Monuments",
-        });
-
         let paramsObj = {
           servive: "WFS",
           version: "2.0.0",
@@ -44,13 +32,30 @@ document.addEventListener("alpine:init", () => {
         paramsObj.typeName = "laravelgis:bati";
         let urlParams = new URLSearchParams(paramsObj);
 
-        let batiLayer = new VectorLayer({
-          source: new VectorSource({
-            format: new GeoJSON(),
-            url: baseUrl + urlParams.toString(),
+        let batiLayer = new TileLayer({
+          source: new TileWMS({
+            url: "http://localhost:8081/geoserver/wms",
+            params: {
+              LAYERS: "laravelgis:bati",
+              TILED: true,
+              STYLES: "",
+            },
+            serverType: "geoserver",
           }),
-          style: this.batiStyle,
           label: "Batiments",
+        });
+
+        let routeLayer = new TileLayer({
+          source: new TileWMS({
+            url: "http://localhost:8081/geoserver/wms",
+            params: {
+              LAYERS: "laravelgis:route",
+              TILED: true,
+              STYLES: "",
+            },
+            serverType: "geoserver",
+          }),
+          label: "Routes",
         });
 
         paramsObj.typeName = "laravelgis:foret";
@@ -73,8 +78,8 @@ document.addEventListener("alpine:init", () => {
               label: "OpenStreetMap",
             }),
             batiLayer,
-            monumentsLayer,
             foretLayer,
+            routeLayer,
           ],
           view: new View({
             projection: "EPSG:4326",
@@ -90,6 +95,7 @@ document.addEventListener("alpine:init", () => {
           ],
         });
 
+        // * OnClick Event
         this.map.on("singleclick", (event) => {
           if (event.dragging) {
             return;
@@ -103,41 +109,30 @@ document.addEventListener("alpine:init", () => {
             event.map.getView().getResolution()
           );
 
-          const url = monumentsLayer
+          // * onclick batiments
+          const url_bati = batiLayer
             .getSource()
             .getFeatureInfoUrl(event.coordinate, viewResolution, "EPSG:4326", {
               INFO_FORMAT: "application/json",
             });
 
-          if (url) {
-            fetch(url)
+          if (url_bati) {
+            fetch(url_bati)
               .then((response) => response.json())
               .then((json) => {
                 if (json.features.length > 0) {
-                  let jsonFeature = json.features[0];
+                  let jsonFeature = json.features[0].properties;
 
-                  let feature = new Feature({
-                    geometry: new Point(jsonFeature.geometry.coordinates),
-                    name: jsonFeature.properties.name,
-                    image: jsonFeature.properties.image,
-                  });
-
-                  this.gotoFeature(feature);
+                  // console.log(jsonFeature);
 
                   let content =
                     '<h4 class="text-gray-500 font-bold">' +
-                    feature.get("name") +
+                    jsonFeature.nom_bati +
                     "</h4>";
-
-                  content +=
-                    '<img src="' +
-                    feature.get("image") +
-                    '" class="mt-2 w-full max-h-[200px] rounded-md shadow-md object-contain overflow-clip">';
-
                   this.$refs.popupContent.innerHTML = content;
 
                   setTimeout(() => {
-                    overlay.setPosition(feature.getGeometry().getCoordinates());
+                    overlay.setPosition(event.coordinate);
                   }, 500);
 
                   return;
