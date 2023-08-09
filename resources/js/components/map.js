@@ -1,15 +1,9 @@
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import { Tile as TileLayer } from "ol/layer.js";
-import VectorLayer from "ol/layer/Vector";
-import VectorSource from "ol/source/Vector";
-import GeoJSON from "ol/format/GeoJSON";
-import { Style, Fill, Stroke, Text } from "ol/style.js";
 import OSM from "ol/source/OSM.js";
 import Overlay from "ol/Overlay.js";
 import TileWMS from "ol/source/TileWMS.js";
-import Feature from "ol/Feature";
-import Point from "ol/geom/Point.js";
 
 document.addEventListener("alpine:init", () => {
   Alpine.data("map", function () {
@@ -18,19 +12,6 @@ document.addEventListener("alpine:init", () => {
       map: {},
       activeTab: "legend",
       initComponent() {
-        let paramsObj = {
-          servive: "WFS",
-          version: "2.0.0",
-          request: "GetFeature",
-          outputFormat: "application/json",
-          crs: "EPSG:4326",
-          srsName: "EPSG:4326",
-        };
-
-        const baseUrl = "http://localhost:8081/geoserver/wfs?";
-
-        paramsObj.typeName = "laravelgis:bati";
-        let urlParams = new URLSearchParams(paramsObj);
 
         let batiLayer = new TileLayer({
           source: new TileWMS({
@@ -70,7 +51,7 @@ document.addEventListener("alpine:init", () => {
           }),
           label: "Foret",
         });
-        
+
         this.map = new Map({
           target: this.$refs.map,
           layers: [
