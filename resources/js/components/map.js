@@ -123,11 +123,14 @@ document.addEventListener("alpine:init", () => {
                 if (json.features.length > 0) {
                   let jsonFeature = json.features[0].properties;
 
-                  // console.log(jsonFeature);
+                  console.log(jsonFeature);
 
                   let content =
-                    '<h4 class="text-gray-500 font-bold">' +
+                    '<h4 class="text-gray-500 font-bold">Nom du batiment : ' +
                     jsonFeature.nom_bati +
+                    "</h4>";
+                  '<h4 class="text-gray-500 font-bold">Nom du batiment : ' +
+                    jsonFeature.type_bati +
                     "</h4>";
                   this.$refs.popupContent.innerHTML = content;
 

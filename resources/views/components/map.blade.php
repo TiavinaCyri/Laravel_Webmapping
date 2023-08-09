@@ -34,13 +34,12 @@
                 </div>
             </div>
         </div>
-        <div x-cloak x-ref="popup" class="ol-popup ol-control transition">
-            <div class="m-0.5 rounded-md bg-white p-2">
-                <div class="flex justify-between">
-                    <h3 class="text-xs font-medium text-slate-400">Monument</h3>
+        <div x-cloak x-ref="popup" class="w-[300px] h-[300px] transition">
+            <div class="m-0.5 rounded-md bg-white w-[300px] h-[300px] p-2">
+                <div class="flex justify-end">
                     <a href="#" title="Close" x-on:click.prevent="closePopup" class="-mt-1 font-black text-slate-400 transition hover:text-slate-600 focus:text-slate-600 focus:outline-none">&times;</a>
                 </div>
-                <div x-ref="popupContent" class="mt-2 min-h-[200px] overflow-y-auto"></div>
+                <div x-ref="popupContent" class="mt-2 overflow-y-auto"></div>
             </div>
         </div>
     </div>
