@@ -58,18 +58,19 @@ document.addEventListener("alpine:init", () => {
           label: "Routes",
         });
 
-        paramsObj.typeName = "laravelgis:foret";
-        urlParams = new URLSearchParams(paramsObj);
-
-        let foretLayer = new VectorLayer({
-          source: new VectorSource({
-            format: new GeoJSON(),
-            url: baseUrl + urlParams.toString(),
+        let foretLayer = new TileLayer({
+          source: new TileWMS({
+            url: "http://localhost:8081/geoserver/wms",
+            params: {
+              LAYERS: "laravelgis:foret",
+              TILED: true,
+              STYLES: "",
+            },
+            serverType: "geoserver",
           }),
-          style: this.foretStyle,
           label: "Foret",
         });
-
+        
         this.map = new Map({
           target: this.$refs.map,
           layers: [
@@ -126,12 +127,16 @@ document.addEventListener("alpine:init", () => {
                   console.log(jsonFeature);
 
                   let content =
-                    '<h4 class="text-gray-500 font-bold">Nom du batiment : ' +
-                    jsonFeature.nom_bati +
-                    "</h4>";
+                  "<div class='space-y-5'>" +
                   '<h4 class="text-gray-500 font-bold">Nom du batiment : ' +
-                    jsonFeature.type_bati +
-                    "</h4>";
+                  jsonFeature.nom_bati +
+                  "</h4>" + 
+                '<h4 class="text-gray-500 font-bold">Type de batiment : ' +
+                  jsonFeature.type_bati +
+                  "</h4>" +
+                  "</div>"
+
+
                   this.$refs.popupContent.innerHTML = content;
 
                   setTimeout(() => {
@@ -142,42 +147,6 @@ document.addEventListener("alpine:init", () => {
                 }
               });
           }
-        });
-      },
-      batiStyle(feature, resolution) {
-        return new Style({
-          fill: new Fill({
-            color: "rgba(125, 125, 125, 0.1)",
-          }),
-          stroke: new Stroke({
-            color: "rgba(125, 125, 125, 1)",
-            width: 2,
-          }),
-          text: new Text({
-            font: "16px serif bold",
-            text: feature.get("name"),
-            fill: new Fill({
-              color: "rgba(32, 32, 32, 1)",
-            }),
-          }),
-        });
-      },
-      foretStyle(feature, resolution) {
-        return new Style({
-          fill: new Fill({
-            color: "#22c55e",
-          }),
-          stroke: new Stroke({
-            color: "#1a2e05",
-            width: 2,
-          }),
-          text: new Text({
-            font: "16px serif bold",
-            text: feature.get("name"),
-            fill: new Fill({
-              color: "rgba(32, 32, 32, 1)",
-            }),
-          }),
         });
       },
       closePopup() {
