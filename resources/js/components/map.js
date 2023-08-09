@@ -12,7 +12,6 @@ document.addEventListener("alpine:init", () => {
       map: {},
       activeTab: "legend",
       initComponent() {
-
         let batiLayer = new TileLayer({
           source: new TileWMS({
             url: "http://localhost:8081/geoserver/wms",
@@ -108,17 +107,18 @@ document.addEventListener("alpine:init", () => {
                   console.log(jsonFeature);
 
                   let content =
-                  "<div class='space-y-5'>" +
-                  '<h4 class="text-gray-500 font-bold">Nom du batiment : ' +
-                  jsonFeature.nom_bati +
-                  "</h4>" + 
-                '<h4 class="text-gray-500 font-bold">Type de batiment : ' +
-                  jsonFeature.type_bati +
-                  "</h4>" +
-                  "</div>"
-
+                    "<div class='space-y-5'>" +
+                    '<h4 class="text-gray-500 font-bold">Nom du batiment : ' +
+                    jsonFeature.nom_bati +
+                    "</h4>" +
+                    '<h4 class="text-gray-500 font-bold">Type de batiment : ' +
+                    jsonFeature.type_bati +
+                    "</h4>" +
+                    "</div>";
 
                   this.$refs.popupContent.innerHTML = content;
+
+                  console.log(event.coordinate);
 
                   setTimeout(() => {
                     overlay.setPosition(event.coordinate);
@@ -135,12 +135,28 @@ document.addEventListener("alpine:init", () => {
         overlay.setPosition(undefined);
         this.$refs.popupContent.innerHTML = "";
       },
-      gotoFeature(feature) {
-        this.map.getView().animate({
-          center: feature.getGeometry().getCoordinates(),
-          zoom: 15,
-          duration: 500,
-        });
+      infoBatiModal(jsonFeature) {
+        let overlay = this.map.getOverlayById("info");
+        overlay.setPosition(undefined);
+        this.$refs.popupContent.innerHTML = "";
+
+        let content =
+          "<div class='space-y-5'>" +
+          '<h4 class="text-gray-500 font-bold">Nom du batiment : ' +
+          jsonFeature.properties.nom_bati +
+          "</h4>" +
+          '<h4 class="text-gray-500 font-bold">Type de batiment : ' +
+          jsonFeature.properties.type_bati +
+          "</h4>" +
+          "</div>";
+
+        this.$refs.popupContent.innerHTML = content;
+
+        setTimeout(() => {
+          overlay.setPosition(jsonFeature.geometry.coordinates[0][0][0]);
+        }, 500);
+
+        return;
       },
       hasLegend(layer) {
         return layer.getSource() instanceof TileWMS;
