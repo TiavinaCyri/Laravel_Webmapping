@@ -1,9 +1,13 @@
 import Map from "ol/Map.js";
 import View from "ol/View.js";
 import { Tile as TileLayer } from "ol/layer.js";
+import { Style, Fill, Stroke, Circle, Text } from "ol/style.js";
 import OSM from "ol/source/OSM.js";
 import Overlay from "ol/Overlay.js";
 import TileWMS from "ol/source/TileWMS.js";
+import VectorSource from "ol/source/Vector";
+import VectorLayer from "ol/layer/Vector";
+import GeoJSON from "ol/format/GeoJSON";
 
 document.addEventListener("alpine:init", () => {
   Alpine.data("map", function () {
@@ -38,17 +42,38 @@ document.addEventListener("alpine:init", () => {
           label: "Routes",
         });
 
-        let foretLayer = new TileLayer({
-          source: new TileWMS({
-            url: "http://localhost:8081/geoserver/wms",
-            params: {
-              LAYERS: "laravelgis:foret",
-              TILED: true,
-              STYLES: "",
-            },
-            serverType: "geoserver",
+        // let foretLayer = new TileLayer({
+        //   source: new TileWMS({
+        //     url: "http://localhost:8081/geoserver/wms",
+        //     params: {
+        //       LAYERS: "laravelgis:foret",
+        //       TILED: true,
+        //       STYLES: "",
+        //     },
+        //     serverType: "geoserver",
+        //   }),
+        //   label: "Foret",
+        // });
+
+        // * layer for colored layer
+        let paramsObj = {
+          servive: "WFS",
+          version: "2.0.0",
+          request: "GetFeature",
+          typeName: "laravelgis:foret",
+          outputFormat: "application/json",
+          crs: "EPSG:4326",
+          srsName: "EPSG:4326",
+        };
+        const baseUrl = "http://localhost:8081/geoserver/wfs?";
+        let urlParams = new URLSearchParams(paramsObj);
+        let foretLayer = new VectorLayer({
+          source: new VectorSource({
+            format: new GeoJSON(),
+            url: baseUrl + urlParams.toString(),
           }),
-          label: "Foret",
+          style: this.foretStyle,
+          label: "Forêts",
         });
 
         this.map = new Map({
@@ -128,6 +153,25 @@ document.addEventListener("alpine:init", () => {
                 }
               });
           }
+        });
+      },
+      foretStyle(feature, resolution) {
+        console.log(feature.id_);
+        return new Style({
+          fill: new Fill({
+            color: "#22c55e",
+          }),
+          stroke: new Stroke({
+            color: "#14532d",
+            width: 2,
+          }),
+          text: new Text({
+            font: "25px serif bold",
+            text: feature.id_,
+            fill: new Fill({
+              color: "rgba(32, 32, 32, 1)",
+            }),
+          }),
         });
       },
       closePopup() {

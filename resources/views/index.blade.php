@@ -1,7 +1,5 @@
 <x-app-layout>
-    <div class="py-12">
-        <div class="px-3">
-            <x-map />
-        </div>
+    <div class="px-3 py-5">
+        <x-map />
     </div>
 </x-app-layout>
