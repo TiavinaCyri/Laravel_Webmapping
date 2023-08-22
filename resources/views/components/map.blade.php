@@ -49,15 +49,18 @@
         </div>
 
         {{-- modals info batiments --}}
-        <div x-cloak x-ref="popup" class="w-[300px] h-[300px] px-6 transition">
-            <div class="m-4 rounded-2xl bg-white w-[300px] px-6 h-[200px] p-2">
-                <div class="flex justify-end mt-4">
+        <div x-cloak x-ref="popup" class="w-[300px] h-[300px] transition">
+            <div class="m-4 rounded-2xl bg-white w-[300px] h-[200px]">
+                <div class="flex justify-end p-4">
                     <a href="#" title="Close" x-on:click.prevent="closePopup" class="-mt-1 font-black text-slate-400 transition hover:text-slate-600 focus:text-slate-600 focus:outline-none">&times;</a>
                 </div>
-                <div>
-                    <h1 class="text-3xl font-semibold">Batiments</h1>
+                <div class="px-6 flex items-center gap-4 mb-3">
+                    <h1 class="text-xl text-slate-700 font-semibold">Batiments</h1>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-slate-700">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />
+                    </svg>
                 </div>
-                <div x-ref="popupContent" class="mt-2 overflow-y-auto"></div>
+                <div class="px-6" x-ref="popupContent" class="mt-2 overflow-y-auto"></div>
             </div>
         </div>
     </div>

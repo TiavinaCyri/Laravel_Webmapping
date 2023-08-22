@@ -169,7 +169,7 @@ document.addEventListener("alpine:init", () => {
         this.$refs.popupContent.innerHTML = "";
 
         let content =
-          "<div class='space-y-5'>" +
+          "<div class='space-y-3'>" +
           '<h4 class="text-gray-500 font-bold">Nom du batiment : ' +
           jsonFeature.properties.nom_bati +
           "</h4>" +
