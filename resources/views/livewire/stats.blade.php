@@ -1,17 +1,22 @@
-<div class="grid grid-cols-3 gap-2">
-    <div class="shadow-sm p-2 rounded-2xl">
+<div class="grid grid-cols-1 gap-2">
+    <div class="shadow-sm flex items-center justify-between px-4 py-2 rounded-2xl">
         <div class="flex justify-center">
-            <svg class="w-14 stroke-current" viewBox="0 0 24 24" fill="none">
+            <svg class="w-8 stroke-current" viewBox="0 0 24 24" fill="none">
                 <path d="M5 9.77746V16.2C5 17.8802 5 18.7203 5.32698 19.362C5.6146 19.9265 6.07354 20.3854 6.63803 20.673C7.27976 21 8.11984 21 9.8 21H14.2C15.8802 21 16.7202 21 17.362 20.673C17.9265 20.3854 18.3854 19.9265 18.673 19.362C19 18.7203 19 17.8802 19 16.2V5.00002M21 12L15.5668 5.96399C14.3311 4.59122 13.7133 3.90484 12.9856 3.65144C12.3466 3.42888 11.651 3.42893 11.0119 3.65159C10.2843 3.90509 9.66661 4.59157 8.43114 5.96452L3 12M14 21V15H10V21" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
         </div>
-        <div class="flex justify-center">
-            <span class="text-3xl">{{ $bati->count() }}</span>
+        <div>
+            <div class="flex justify-end">
+                <span class="text-xl">{{ $bati->count() }} maisons</span>
+            </div>
+            <div class="flex justify-end">
+                <span class="text-xl">{{ $bati_area }} m²</span>
+            </div>
         </div>
     </div>
-    <div class="shadow-sm p-2 rounded-2xl">
+    <div class="shadow-sm flex items-center justify-between px-4 py-2 rounded-2xl">
         <div class="flex justify-center">
-            <svg class="w-14" viewBox="0 0 512 512">
+            <svg class="w-8" viewBox="0 0 512 512">
                 <g>
                     <path class="st0" d="M346.483,226.653c-58.176-75.765-90.498-181.813-90.498-181.813s-32.318,106.048-90.505,181.813
                     c0,0,26.66,16.09,41.21,7.569c0,0-14.55,65.341-79.995,151.514c58.176,18.923,101.81-12.328,101.81-12.328v93.75h21.025h12.916
@@ -30,13 +35,18 @@
                 </g>
             </svg>
         </div>
-        <div class="flex justify-center">
-            <span class="text-3xl">{{ $foret->count() }}</span>
+        <div>
+            <div class="flex justify-end">
+                <span class="text-xl">{{ $foret->count() }} forêts</span>
+            </div>
+            <div class="flex justify-end">
+                <span class="text-xl">{{ $foret_area }} m²</span>
+            </div>
         </div>
     </div>
-    <div class="shadow-sm p-2 rounded-2xl">
+    <div class="shadow-sm flex items-center justify-between px-4 py-2 rounded-2xl">
         <div class="flex justify-center">
-            <svg class="w-14" viewBox="0 0 512 512">
+            <svg class="w-8" viewBox="0 0 512 512">
                 <g>
                     <path class="st0" d="M311.508,354.916l5.72-11.034c1.816-3.546,3.506-7.029,5.096-10.582c3.117-7.076,5.666-14.261,7.271-21.36
                     c3.265-14.331,1.566-27.476-7.146-37.21c-8.712-9.928-23.097-16.591-37.966-21.235c-31.654-9.11-64.024-19.248-95.343-31.139
@@ -55,8 +65,10 @@
                 </g>
             </svg>
         </div>
-        <div class="flex justify-center">
-            <span class="text-3xl">{{ $route->count() }}</span>
+        <div>
+            <div class="flex justify-center">
+                <span class="text-xl">{{ $route->count() }} routes</span>
+            </div>
         </div>
     </div>
 </div>
