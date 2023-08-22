@@ -20,8 +20,14 @@
                                     <label x-bind:for="$id('legend-range')" class="flex items-center">
                                         <span class="text-lg text-current" x-text="layer.get('label')"></span>
                                     </label>
-                                    <div x-show="hasLegend(layer)">
-                                        <img x-bind:src="legendUrl(layer)" alt="Legend">
+                                    <div class="text-sm" x-show="layer.get('label') === 'Routes'">
+                                        <div class="w-10 h-[2px] bg-blue-700"></div>
+                                    </div>
+                                    <div class="text-sm" x-show="layer.get('label') === 'Forêts'">
+                                        <div class="w-5 h-5 bg-[#22c55e] border-2 border-[#14532d]"></div>
+                                    </div>
+                                    <div class="text-sm" x-show="layer.get('label') === 'Batiments'">
+                                        <div class="w-5 h-5 bg-[#7c807c65] border-2 border-[#272727]"></div>
                                     </div>
                                 </div>
                                 <div class="mt-2 text-sm text-slate-600">

@@ -42,19 +42,6 @@ document.addEventListener("alpine:init", () => {
           label: "Routes",
         });
 
-        // let foretLayer = new TileLayer({
-        //   source: new TileWMS({
-        //     url: "http://localhost:8081/geoserver/wms",
-        //     params: {
-        //       LAYERS: "laravelgis:foret",
-        //       TILED: true,
-        //       STYLES: "",
-        //     },
-        //     serverType: "geoserver",
-        //   }),
-        //   label: "Foret",
-        // });
-
         // * layer for colored layer
         let paramsObj = {
           servive: "WFS",
@@ -101,6 +88,8 @@ document.addEventListener("alpine:init", () => {
           ],
         });
 
+        // console.log(this.map.getAllLayers().reverse().get('label'));
+
         // * OnClick Event
         this.map.on("singleclick", (event) => {
           if (event.dragging) {
@@ -129,8 +118,6 @@ document.addEventListener("alpine:init", () => {
                 if (json.features.length > 0) {
                   let jsonFeature = json.features[0].properties;
 
-                  console.log(jsonFeature);
-
                   let content =
                     "<div class='space-y-5'>" +
                     '<h4 class="text-gray-500 font-bold">Nom du batiment : ' +
@@ -143,8 +130,6 @@ document.addEventListener("alpine:init", () => {
 
                   this.$refs.popupContent.innerHTML = content;
 
-                  console.log(event.coordinate);
-
                   setTimeout(() => {
                     overlay.setPosition(event.coordinate);
                   }, 500);
@@ -156,7 +141,6 @@ document.addEventListener("alpine:init", () => {
         });
       },
       foretStyle(feature, resolution) {
-        console.log(feature.id_);
         return new Style({
           fill: new Fill({
             color: "#22c55e",
